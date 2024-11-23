@@ -1,0 +1,21 @@
+{
+  "name": "devtree",
+  "version": "1.0.0",
+  "description": "Primer proyecto express typesscript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "react",
+    "express",
+    "node"
+  ],
+  "author": "Jesus Aguilar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
