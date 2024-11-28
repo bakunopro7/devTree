@@ -19,7 +19,8 @@
   "author": "Jesus Aguilar",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "mongoose": "^8.8.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
