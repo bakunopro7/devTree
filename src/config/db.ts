@@ -2,8 +2,7 @@ import mongoose from 'mongoose';
 
 export const connectDB =  async () => {
     try {
-        const url = 'mongodb+srv://root:eZUtOaKLols4ISxo@cluster0.bxi6u.mongodb.net/linktree_node_typescript    '
-        const connection = await mongoose.connect(url)
+        const connection = await mongoose.connect(process.env.MONGO_URI)
         const url2 =  `${connection.connection.host}:${connection.connection.port}`
         console.log(`Connected to mongodb+srv: ${url2}`);
     } catch (error) {
