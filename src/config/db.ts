@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import colors from "colors";
 
 export const connectDB =  async () => {
     try {
@@ -6,7 +7,7 @@ export const connectDB =  async () => {
         const url2 =  `${connection.connection.host}:${connection.connection.port}`
         console.log(`Connected to mongodb+srv: ${url2}`);
     } catch (error) {
-        console.log(error.message);
+        console.log(colors.bgRed(error.message));
         process.exit(1);
     }
 }
