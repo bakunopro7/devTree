@@ -1,18 +1,16 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
+import colors from "colors";
+import {createAccount} from "./handlers";
 
 const router = Router();
 
 // Routing
-router.get("/", (req: express.Request, res: express.Response) => {
-    res.send("Hello World");
-})
+router.get('/hola', (req, res) => {
+    console.log(colors.bgBlue.white.italic( 'Hola!' ));
+    res.send("Hola!");
+});
 
-router.get("/nosotros", (req: express.Request, res: express.Response) => {
-    res.send("Nosotros");
-})
+// @ts-ignore
+router.post('/auth/register', createAccount);
 
-router.get("/blog", (req: express.Request, res: express.Response) => {
-    res.send("Blog");
-})
-
-export default router;
+export default router   ;
