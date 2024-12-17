@@ -1,10 +1,11 @@
-import {Request, Response} from 'express';
+import express, {Request, Response} from 'express';
 import User from "../models/User";
 import {checkPassword, hashPassword} from "../utils/auth";
 import { validationResult } from "express-validator";
 import slug from "slug";
+import {generateJWT} from "../utils/jwt";
 
-export const createAccount = async (req: Request, res) => {
+export const createAccount = async (req: express.Request, res) => {
 
     const { email, password } = req.body;
     // handle edit
@@ -30,22 +31,26 @@ export const createAccount = async (req: Request, res) => {
 
 }
 
-export const login = async (req: Request, res: Response) => {
-
+export const login = async (req: Request, res) => {
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.status(400).json({errors : errors.array()});
-
+        return res.status(400).json({errors : errors.array()});
     }
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
         const error = new Error('User not exist')
-        res.status(404).json({errors : error.message});
+        return res.status(404).json({errors : error.message});
     }
     const isPasswordCorrect = await checkPassword(password, user.password);
     if (!isPasswordCorrect) {
         const error = new Error('Password incorrect')
-        res.status(401).json({errors : error.message});
+        return res.status(401).json({errors : error.message});
     }
+    const token = generateJWT({id: user._id})
+    res.send(token)
+}
+
+export const getUser = async (req: Request, res) => {
+    res.json(req.user);
 }

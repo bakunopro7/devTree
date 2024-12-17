@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import colors from "colors";
-import {createAccount, login} from "./handlers";
+import {createAccount, getUser, login} from "./handlers";
 import { body } from "express-validator";
 import {handleInputErrors} from "./middleware/validation";
+import {autenticate} from "./middleware/auth";
 
 const router = Router();
 
@@ -38,4 +39,5 @@ router.post('/auth/login',
         .withMessage('Password required'),
     login);
 
+router.get('/user',autenticate, getUser)
 export default router   ;
