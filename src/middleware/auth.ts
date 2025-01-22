@@ -2,11 +2,11 @@ import {Request, Response, NextFunction} from 'express';
 import jwt from "jsonwebtoken";
 import User, {IUser} from "../models/User";
 
-// creamos una declaracion golabla del reques de express para pasar datos
+// creamos una declaracion golabla del reques de express para pasar datos de tipo opcional
 declare global {
     namespace Express {
         interface Request {
-            user: IUser
+            user?: IUser
         }
     }
 }
