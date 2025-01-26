@@ -54,3 +54,25 @@ export const login = async (req: Request, res) => {
 export const getUser = async (req: Request, res) => {
     res.json(req.user);
 }
+
+export const updateProfile = async (req: Request, res) => {
+    try {
+        // cambiar perfil de usuario
+        const { description } = req.body;
+        const handle = slug(req.body.handle, '')
+        const handleExists = await User.findOne({handle});
+        if (handleExists && handleExists.email !== req.user.email) {
+            const error = new Error('Handle already exists')
+            return res.status(409).json({errors : error.message});
+        }
+
+        // actualizar usuario
+        req.user.description = description;
+        req.user.handle = handle;
+        await req.user.save();
+        res.send('Perfil actualizado');
+    } catch (e) {
+        const error = new Error('Error updating profile')
+        return res.status(500).json({errors : error.message});
+    }
+}

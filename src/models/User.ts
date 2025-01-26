@@ -1,10 +1,11 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, {Schema, Document} from "mongoose";
 
-export interface IUser {
+export interface IUser extends Document {
     handle: string
     name: string
     email: string
     password: string
+    description: string
 }
 
 const userSchema = new Schema({
@@ -30,6 +31,10 @@ const userSchema = new Schema({
         type: String,
         required: true, // requerido
         trim: true // sin espacion en blanco
+    },
+    description: {
+        type: String,
+        default: "", // por defecto
     }
 });
 
