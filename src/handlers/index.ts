@@ -3,7 +3,10 @@ import User from "../models/User";
 import {checkPassword, hashPassword} from "../utils/auth";
 import { validationResult } from "express-validator";
 import slug from "slug";
+import formidable from "formidable";
+import cloudinary from '../config/cloudinary';
 import {generateJWT} from "../utils/jwt";
+import {v4 as uuid} from "uuid"
 
 export const createAccount = async (req: express.Request, res) => {
 
@@ -71,6 +74,30 @@ export const updateProfile = async (req: Request, res) => {
         req.user.handle = handle;
         await req.user.save();
         res.send('Perfil actualizado');
+    } catch (e) {
+        const error = new Error('Error updating profile')
+        return res.status(500).json({errors : error.message});
+    }
+}
+
+export const uploadImage = async (req: Request, res) => {
+    const form = formidable({ multiples: true });
+
+    try {
+
+        form.parse(req, (error, fields, files) => {
+
+            console.log(files)
+            cloudinary.uploader.upload(files.file[0].filepath, {public_id: uuid()}, async function(error, result) {
+                if (error) {
+                    const error = new Error('Error uploading image');
+                    return res.status(500).json({errors : error.message});
+                }
+                if (result) {
+                    console.log(result.secure_url)
+                }
+            })
+        })
     } catch (e) {
         const error = new Error('Error updating profile')
         return res.status(500).json({errors : error.message});
